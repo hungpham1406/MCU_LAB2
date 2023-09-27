@@ -150,6 +150,10 @@ void display7SEG(int counter) {
 	}
 
 }
+
+void update7SEG(int index) {
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -190,6 +194,9 @@ int main(void)
   setTimer1(100);	//Every second 2 LED blinks
   setTimer2(50);	//Half second each 7 led segment will display
   int state = 0;
+  const int MAX_LED = 4;
+  int index_led = 0;
+  int led_buffer[4] = {1,2,3,4};
   while (1)
   {
 	  if(timer1_flag == 1) {
