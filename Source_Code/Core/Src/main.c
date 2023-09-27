@@ -237,7 +237,6 @@ int main(void)
 
 	  if(timer2_flag == 1) {
 		  setTimer2(50);
-
 		  update7SEG(led_buffer[index_led]);
 		  index_led++;
 		  if(index_led == MAX_LED) index_led = 0;
