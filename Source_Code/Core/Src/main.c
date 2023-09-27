@@ -224,7 +224,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
-  setTimer2(50);	//Half second each 7 led segment will display
+  setTimer2(25);	//Half second each 7 led segment will display
   const int MAX_LED = 4;
   int index_led = 0;
   int led_buffer[4] = {1,2,3,4};
@@ -236,7 +236,7 @@ int main(void)
 	  }
 
 	  if(timer2_flag == 1) {
-		  setTimer2(50);
+		  setTimer2(25);
 		  update7SEG(led_buffer[index_led]);
 		  index_led++;
 		  if(index_led == MAX_LED) index_led = 0;

@@ -27,9 +27,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00008619  00000000  00000000  00020035  2**0
+ 12 .debug_info   00008618  00000000  00000000  00020035  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000015e4  00000000  00000000  0002864e  2**0
+ 13 .debug_abbrev 000015e4  00000000  00000000  0002864d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_aranges 00000970  00000000  00000000  00029c38  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -688,8 +688,8 @@ int main(void)
   setTimer1(100);	//Every second 2 LED blinks
  8000590:	2064      	movs	r0, #100	; 0x64
  8000592:	f000 f929 	bl	80007e8 <setTimer1>
-  setTimer2(50);	//Half second each 7 led segment will display
- 8000596:	2032      	movs	r0, #50	; 0x32
+  setTimer2(25);	//Half second each 7 led segment will display
+ 8000596:	2019      	movs	r0, #25
  8000598:	f000 f93a 	bl	8000810 <setTimer2>
   const int MAX_LED = 4;
  800059c:	2304      	movs	r3, #4
@@ -723,10 +723,9 @@ int main(void)
  80005c6:	681b      	ldr	r3, [r3, #0]
  80005c8:	2b01      	cmp	r3, #1
  80005ca:	d1f0      	bne.n	80005ae <main+0x3a>
-		  setTimer2(50);
- 80005cc:	2032      	movs	r0, #50	; 0x32
+		  setTimer2(25);
+ 80005cc:	2019      	movs	r0, #25
  80005ce:	f000 f91f 	bl	8000810 <setTimer2>
-
 		  update7SEG(led_buffer[index_led]);
  80005d2:	697b      	ldr	r3, [r7, #20]
  80005d4:	009b      	lsls	r3, r3, #2
