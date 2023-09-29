@@ -151,35 +151,39 @@ void display7SEG(int counter) {
 
 }
 
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer[4] = {1,2,3,4};
+
 void update7SEG(int index) {
 	switch(index) {
-	  case 1:
+	  case 0:
 		  HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
 		  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 		  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 		  HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-		  display7SEG(1);
+		  display7SEG(led_buffer[0]);
 		  break;
-	  case 2:
+	  case 1:
 		  HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 		  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
 		  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 		  HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-		  display7SEG(2);
+		  display7SEG(led_buffer[1]);
 		  break;
-	  case 3:
+	  case 2:
 		  HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 		  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 		  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
 		  HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-		  display7SEG(3);
+		  display7SEG(led_buffer[2]);
 		  break;
-	  case 4:
+	  case 3:
 		  HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
 		  HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
 		  HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 		  HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-		  display7SEG(0);
+		  display7SEG(led_buffer[3]);
 		  break;
 	  default:
 		  break;
@@ -187,11 +191,14 @@ void update7SEG(int index) {
 	}
 }
 
-void updateClockBuffer(int led_buffer[4], int hour, int minute) {
+int hour = 15, minute = 8, second = 50;
+void updateClockBuffer() {
+	int temp;
 	if(hour >= 10) {
-		led_buffer[0] = hour/10;
-		hour = hour%10;
-		led_buffer[1] = hour;
+		temp = hour;
+		led_buffer[0] = temp/10;
+		temp = temp%10;
+		led_buffer[1] = temp;
 	}
 	else {
 		led_buffer[0] = 0;
@@ -199,13 +206,14 @@ void updateClockBuffer(int led_buffer[4], int hour, int minute) {
 	}
 
 	if(minute >= 10) {
-		led_buffer[0] = minute/10;
-		minute = minute%10;
-		led_buffer[1] = minute;
+		temp = minute;
+		led_buffer[2] = temp/10;
+		temp = temp%10;
+		led_buffer[3] = temp;
 	}
 	else {
-		led_buffer[0] = 0;
-		led_buffer[1] = minute;
+		led_buffer[2] = 0;
+		led_buffer[3] = minute;
 	}
 }
 /* USER CODE END 0 */
@@ -247,10 +255,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
   setTimer2(50);	//Half second each 7 led segment will display
-  const int MAX_LED = 4;
-  int index_led = 0;
-  int led_buffer[4] = {1,2,3,4};
-  int hour = 15, minute = 8, second = 50;
   while (1)
   {
 	  if(timer1_flag == 1) {
@@ -271,9 +275,9 @@ int main(void)
 	  }
 
 	  if(timer2_flag == 1) {
-		  updateClockBuffer(led_buffer, hour, minute);
+		  updateClockBuffer();
 		  setTimer2(50);
-		  update7SEG(led_buffer[index_led]);
+		  update7SEG(index_led);
 		  index_led++;
 		  if(index_led == MAX_LED) index_led = 0;
 	  }
