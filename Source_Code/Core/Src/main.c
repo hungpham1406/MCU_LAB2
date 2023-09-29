@@ -186,6 +186,28 @@ void update7SEG(int index) {
 
 	}
 }
+
+void updateClockBuffer(int led_buffer[4], int hour, int minute) {
+	if(hour >= 10) {
+		led_buffer[0] = hour/10;
+		hour = hour%10;
+		led_buffer[1] = hour;
+	}
+	else {
+		led_buffer[0] = 0;
+		led_buffer[1] = hour;
+	}
+
+	if(minute >= 10) {
+		led_buffer[0] = minute/10;
+		minute = minute%10;
+		led_buffer[1] = minute;
+	}
+	else {
+		led_buffer[0] = 0;
+		led_buffer[1] = minute;
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -224,7 +246,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
-  setTimer2(25);	//Half second each 7 led segment will display
+  setTimer2(50);	//Half second each 7 led segment will display
   const int MAX_LED = 4;
   int index_led = 0;
   int led_buffer[4] = {1,2,3,4};
@@ -234,10 +256,23 @@ int main(void)
 	  if(timer1_flag == 1) {
 		  setTimer1(100);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
+		  second++;
+		  if(second >= 60) {
+			  second = 0;
+			  minute++;
+		  }
+		  if(minute >= 60) {
+			  minute = 0;
+			  hour++;
+		  }
+		  if(hour >= 24) {
+			  hour = 0;
+		  }
 	  }
 
 	  if(timer2_flag == 1) {
-		  setTimer2(25);
+		  updateClockBuffer(led_buffer, hour, minute);
+		  setTimer2(50);
 		  update7SEG(led_buffer[index_led]);
 		  index_led++;
 		  if(index_led == MAX_LED) index_led = 0;
