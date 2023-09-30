@@ -216,6 +216,33 @@ void updateClockBuffer() {
 		led_buffer[3] = minute;
 	}
 }
+
+const int MAX_LED_MATRIX = 8;
+int index_led_matrix = 0;
+uint8_t matrix_buffer[8] = {0x01 , 0x02 , 0x03 , 0x04 , 0x05 , 0x06 , 0x07 , 0x08};
+void updateLEDMatrix(int index) {
+	switch(index) {
+	case 0:
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	default:
+		break;
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -272,10 +299,16 @@ int main(void)
 		  if(hour >= 24) {
 			  hour = 0;
 		  }
+
 	  }
 
 	  if(timer2_flag == 1) {
 		  updateClockBuffer();
+		  HAL_GPIO_WritePin(GPIOA, ROW0_Pin|ROW1_Pin|ROW2_Pin|ROW3_Pin|ROW4_Pin
+				  	  	  	  	   |ROW5_Pin|ROW6_Pin|ROW7_Pin, 0xFE);
+//		  HAL_GPIO_WritePin(GPIOA, ENM0_Pin|ENM1_Pin|ENM2_Pin|ENM3_Pin|ENM4_Pin
+//		  				  	  	   |ENM5_Pin|ENM6_Pin|ENM7_Pin, 0xFE);
+		  HAL_GPIO_WritePin(ENM0_GPIO_Port, ENM0_Pin, 0x18);
 		  setTimer2(25);
 		  update7SEG(index_led);
 		  index_led++;
