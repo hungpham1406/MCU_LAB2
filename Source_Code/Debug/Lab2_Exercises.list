@@ -817,8 +817,8 @@ int main(void)
   setTimer1(100);	//Every second 2 LED blinks
  800065e:	2064      	movs	r0, #100	; 0x64
  8000660:	f000 f94a 	bl	80008f8 <setTimer1>
-  setTimer2(50);	//Half second each 7 led segment will display
- 8000664:	2032      	movs	r0, #50	; 0x32
+  setTimer2(25);	//Half second each 7 led segment will display
+ 8000664:	2019      	movs	r0, #25
  8000666:	f000 f95b 	bl	8000920 <setTimer2>
   while (1)
   {
@@ -891,8 +891,8 @@ int main(void)
  80006ce:	d1cc      	bne.n	800066a <main+0x26>
 		  updateClockBuffer();
  80006d0:	f7ff ff58 	bl	8000584 <updateClockBuffer>
-		  setTimer2(50);
- 80006d4:	2032      	movs	r0, #50	; 0x32
+		  setTimer2(25);
+ 80006d4:	2019      	movs	r0, #25
  80006d6:	f000 f923 	bl	8000920 <setTimer2>
 		  update7SEG(index_led);
  80006da:	4b10      	ldr	r3, [pc, #64]	; (800071c <main+0xd8>)

@@ -254,7 +254,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
-  setTimer2(50);	//Half second each 7 led segment will display
+  setTimer2(25);	//Half second each 7 led segment will display
   while (1)
   {
 	  if(timer1_flag == 1) {
@@ -276,7 +276,7 @@ int main(void)
 
 	  if(timer2_flag == 1) {
 		  updateClockBuffer();
-		  setTimer2(50);
+		  setTimer2(25);
 		  update7SEG(index_led);
 		  index_led++;
 		  if(index_led == MAX_LED) index_led = 0;
