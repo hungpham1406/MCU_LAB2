@@ -329,16 +329,16 @@ int main(void)
 
 	  }
 
-//	  if(timer2_flag == 1) {
-//		  updateClockBuffer();
-//		  setTimer2(25);
-//		  update7SEG(index_led);
-//		  index_led++;
-//		  if(index_led == MAX_LED) index_led = 0;
-//	  }
+	  if(timer2_flag == 1) {
+		  updateClockBuffer();
+		  setTimer2(25);
+		  update7SEG(index_led);
+		  index_led++;
+		  if(index_led == MAX_LED) index_led = 0;
+	  }
 
 	  if(timer3_flag == 1) {
-		  setTimer3(20);
+		  setTimer3(10);
 		  updateLEDMatrix(index_led_matrix);
 		  displayMatrixColumn(matrix_buffer[index_led_matrix]);
 		  index_led_matrix++;
