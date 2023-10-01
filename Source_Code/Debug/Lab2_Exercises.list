@@ -778,7 +778,7 @@ void updateClockBuffer() {
 
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x18 , 0x3C , 0x66 , 0x66 , 0x7E , 0x7E , 0x66 , 0x66};
+uint8_t matrix_buffer[8] = {0x0C,0x1E,0x33,0x33,0x3F,0x3F,0x33,0x33};
 void displayMatrixColumn(uint8_t counter) {
  8000644:	b580      	push	{r7, lr}
  8000646:	b082      	sub	sp, #8

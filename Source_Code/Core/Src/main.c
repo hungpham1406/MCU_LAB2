@@ -219,7 +219,7 @@ void updateClockBuffer() {
 
 const int MAX_LED_MATRIX = 8;
 int index_led_matrix = 0;
-uint8_t matrix_buffer[8] = {0x18 , 0x3C , 0x66 , 0x66 , 0x7E , 0x7E , 0x66 , 0x66};
+uint8_t matrix_buffer[8] = {0x0C,0x1E,0x33,0x33,0x3F,0x3F,0x33,0x33};
 void displayMatrixColumn(uint8_t counter) {
 	HAL_GPIO_WritePin(GPIOA, ENM0_Pin, counter >> 0 & GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA, ENM1_Pin, counter >> 1 & GPIO_PIN_SET);
