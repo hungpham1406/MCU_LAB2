@@ -228,7 +228,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
-  setTimer2(25);	//Half second each 7 led segment will display
+  setTimer2(25);	//quarter of one second each 7 led segment will display
 
   while (1)
   {
