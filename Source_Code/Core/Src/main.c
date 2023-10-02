@@ -324,25 +324,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   setTimer1(100);	//Every second 2 LED blinks
   setTimer2(25);	//Half second each 7 led segment will display
-  setTimer3(10);
+  setTimer3(100);
+  setTimer4(10);
   int currState = 1;
   while (1)
   {
 	  if(timer1_flag == 1) {
 		  setTimer1(100);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
-		  second++;
-		  if(second >= 60) {
-			  second = 0;
-			  minute++;
-		  }
-		  if(minute >= 60) {
-			  minute = 0;
-			  hour++;
-		  }
-		  if(hour >= 24) {
-			  hour = 0;
-		  }
 
 	  }
 
@@ -355,7 +344,23 @@ int main(void)
 	  }
 
 	  if(timer3_flag == 1) {
-		  setTimer3(10);
+		  setTimer3(100);
+		  second++;
+		  if(second >= 60) {
+			  second = 0;
+			  minute++;
+		  }
+		  if(minute >= 60) {
+			  minute = 0;
+			  hour++;
+		  }
+		  if(hour >= 24) {
+			  hour = 0;
+		  }
+	  }
+
+	  if(timer4_flag == 1) {
+		  setTimer4(10);
 		  updateLEDMatrix(index_led_matrix);
 		  if(currState == 1) {
 			  temp_matrix_buffer1[index_led_matrix] = matrix_buffer[index_led_matrix];
