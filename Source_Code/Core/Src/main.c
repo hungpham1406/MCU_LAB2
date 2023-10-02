@@ -223,7 +223,7 @@ int index_led_matrix = 0;
 int shift_number = 1;
 int shift_number2 = 6;
 uint8_t matrix_buffer[8] = {0x18, 0x3C, 0x66, 0x66, 0x7E, 0x7E, 0x66, 0x66};
-uint8_t temp_matrix_buffer1[8], temp_matrix_buffer2[8];
+uint8_t temp_matrix_buffer1[8];
 uint8_t matrix_buffer2[8] = {0x7E, 0x7E, 0x06, 0x3E, 0x3E, 0x06, 0x7E, 0x7E};
 void displayMatrixColumn(uint8_t counter) {
 	HAL_GPIO_WritePin(GPIOA, ENM0_Pin, counter >> 0 & GPIO_PIN_SET);
@@ -274,15 +274,15 @@ void updateLEDMatrix(int index) {
 	}
 }
 
-void moveLeft(int shift_number, int shift_number2) {
-	temp_matrix_buffer1[0] = (matrix_buffer[0] >> shift_number) | (matrix_buffer2[0] << shift_number2);
-	temp_matrix_buffer1[1] = (matrix_buffer[1] >> shift_number) | (matrix_buffer2[1] << shift_number2);
-	temp_matrix_buffer1[2] = (matrix_buffer[2] >> shift_number) | (matrix_buffer2[2] << shift_number2);
-	temp_matrix_buffer1[3] = (matrix_buffer[3] >> shift_number) | (matrix_buffer2[3] << shift_number2);
-	temp_matrix_buffer1[4] = (matrix_buffer[4] >> shift_number) | (matrix_buffer2[4] << shift_number2);
-	temp_matrix_buffer1[5] = (matrix_buffer[5] >> shift_number) | (matrix_buffer2[5] << shift_number2);
-	temp_matrix_buffer1[6] = (matrix_buffer[6] >> shift_number) | (matrix_buffer2[6] << shift_number2);
-	temp_matrix_buffer1[7] = (matrix_buffer[7] >> shift_number) | (matrix_buffer2[7] << shift_number2);
+void moveLeft(int shift_number, int shift_number2, uint8_t matrix1[8], uint8_t matrix2[8]) {
+	temp_matrix_buffer1[0] = (matrix1[0] >> shift_number) | (matrix2[0] << shift_number2);
+	temp_matrix_buffer1[1] = (matrix1[1] >> shift_number) | (matrix2[1] << shift_number2);
+	temp_matrix_buffer1[2] = (matrix1[2] >> shift_number) | (matrix2[2] << shift_number2);
+	temp_matrix_buffer1[3] = (matrix1[3] >> shift_number) | (matrix2[3] << shift_number2);
+	temp_matrix_buffer1[4] = (matrix1[4] >> shift_number) | (matrix2[4] << shift_number2);
+	temp_matrix_buffer1[5] = (matrix1[5] >> shift_number) | (matrix2[5] << shift_number2);
+	temp_matrix_buffer1[6] = (matrix1[6] >> shift_number) | (matrix2[6] << shift_number2);
+	temp_matrix_buffer1[7] = (matrix1[7] >> shift_number) | (matrix2[7] << shift_number2);
 }
 
 /* USER CODE END 0 */
@@ -325,7 +325,7 @@ int main(void)
   setTimer1(100);	//Every second 2 LED blinks
   setTimer2(25);	//Half second each 7 led segment will display
   setTimer3(10);
-  int initialState = 0;
+  int currState = 1;
   while (1)
   {
 	  if(timer1_flag == 1) {
@@ -357,24 +357,31 @@ int main(void)
 	  if(timer3_flag == 1) {
 		  setTimer3(10);
 		  updateLEDMatrix(index_led_matrix);
-		  if(initialState == 0) {
+		  if(currState == 1) {
 			  temp_matrix_buffer1[index_led_matrix] = matrix_buffer[index_led_matrix];
 		  }
-		  else if(initialState == 2) {
+		  else if(currState == 2) {
 			  temp_matrix_buffer1[index_led_matrix] = matrix_buffer2[index_led_matrix];
 		  }
 		  displayMatrixColumn(temp_matrix_buffer1[index_led_matrix]);
 		  index_led_matrix++;
 		  if(index_led_matrix == MAX_LED_MATRIX) {
 			  index_led_matrix = 0;
-			  if(initialState == 0) initialState = 1;
-			  moveLeft(shift_number, shift_number2);
+			  if(currState == 1) currState = 3;
+			  else if(currState == 2) currState = 4;
+			  if(currState == 3) {
+				  moveLeft(shift_number, shift_number2, matrix_buffer, matrix_buffer2);
+			  }
+			  else if(currState == 4) {
+				  moveLeft(shift_number, shift_number2, matrix_buffer2, matrix_buffer);
+			  }
 			  shift_number++;
 			  shift_number2--;
 			  if(shift_number == MAX_SHIFT_NUM) shift_number = 1;
-			  if(shift_number2 == 0) {
+			  if(shift_number2 < 0) {
 				  shift_number2 = 6;
-				  initialState = 2;
+				  if(currState == 3) currState = 2;
+				  else if(currState == 4) currState = 1;
 			  }
 		  }
 	  }
