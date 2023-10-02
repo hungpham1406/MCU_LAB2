@@ -193,28 +193,10 @@ void update7SEG(int index) {
 
 int hour = 15, minute = 8, second = 50;
 void updateClockBuffer() {
-	int temp;
-	if(hour >= 10) {
-		temp = hour;
-		led_buffer[0] = temp/10;
-		temp = temp%10;
-		led_buffer[1] = temp;
-	}
-	else {
-		led_buffer[0] = 0;
-		led_buffer[1] = hour;
-	}
-
-	if(minute >= 10) {
-		temp = minute;
-		led_buffer[2] = temp/10;
-		temp = temp%10;
-		led_buffer[3] = temp;
-	}
-	else {
-		led_buffer[2] = 0;
-		led_buffer[3] = minute;
-	}
+	led_buffer[0] = hour/10;
+	led_buffer[1] = hour%10;
+	led_buffer[2] = minute/10;
+	led_buffer[3] = minute%10;
 }
 /* USER CODE END 0 */
 
